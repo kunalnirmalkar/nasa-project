@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Weather & Industrial Workers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #2d1b4e 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(180deg, rgba(10,14,39,0.8) 0%, rgba(26,31,58,0.6) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .space-weather-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+
+        .weather-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 200px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
+        }
+
+        .weather-card.active {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .level {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .low { color: #4ade80; }
+        .moderate { color: #fbbf24; }
+        .high { color: #f87171; }
+
+        .workers-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .worker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .worker-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeIn 0.6s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .worker-card:nth-child(1) { animation-delay: 0.1s; }
+        .worker-card:nth-child(2) { animation-delay: 0.2s; }
+        .worker-card:nth-child(3) { animation-delay: 0.3s; }
+        .worker-card:nth-child(4) { animation-delay: 0.4s; }
+        .worker-card:nth-child(5) { animation-delay: 0.5s; }
+        .worker-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .worker-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .worker-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .impact-list {
+            margin-top: 15px;
+            line-height: 1.8;
+        }
+
+        .impact-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            border-left: 3px solid;
+            transition: all 0.3s;
+        }
+
+        .impact-item:hover {
+            transform: translateX(5px);
+            background: rgba(0,0,0,0.5);
+        }
+
+        .severity-low { border-color: #4ade80; }
+        .severity-moderate { border-color: #fbbf24; }
+        .severity-high { border-color: #f87171; }
+
+        .info-section {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .info-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ffd700;
+        }
+
+        .info-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>⚡ Space Weather Impact on Industrial Workers</h1>
+        <p class="subtitle">How solar storms and geomagnetic activity affect daily operations</p>
+    </div>
+
+    <div class="space-weather-indicator">
+        <div class="weather-card active" onclick="setWeatherLevel('low')">
+            <div>☀️ Solar Activity</div>
+            <div class="level low" id="solar-level">Low</div>
+        </div>
+        <div class="weather-card" onclick="setWeatherLevel('moderate')">
+            <div>🌪️ Geomagnetic Storm</div>
+            <div class="level moderate" id="geo-level">Moderate</div>
+        </div>
+        <div class="weather-card" onclick="setWeatherLevel('high')">
+            <div>⚠️ Radiation Storm</div>
+            <div class="level high" id="rad-level">High</div>
+        </div>
+    </div>
+
+    <div class="workers-section">
+        <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 20px;">Industries Affected</h2>
+        
+        <div class="worker-grid" id="worker-grid">
+            <div class="worker-card">
+                <div class="worker-icon">⚡</div>
+                <div class="worker-title">Power Grid Operators</div>
+                <div class="impact-list">
+                    <div class="impact-item severity-high">
+                        <strong>Transformer Damage:</strong> Geomagnetically induced currents (GICs) can cause transformers to overheat or fail
+                    </div>
+                    <div class="impact-item severity-high">
+                        <strong>Grid Instability:</strong> Sudden voltage fluctuations during solar storms
+                    </div>
+                    <div class="impact-item severity-moderate">
+                        <strong>Emergency Protocols:</strong> Must implement load shedding to protect infrastructure
+                    </div>
+                </div>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">✈️</div>
+                <div class="worker-title">Aviation Workers</div>
+                <div class="impact-list">
+                    <div class="impact-item severity-high">
+                        <strong>Radio Blackouts:</strong> Communication disruptions during solar flares
+                    </div>
+                    <div class="impact-item severity-moderate">
+                        <strong>GPS Errors:</strong> Navigation system inaccuracies up to 100 meters
+                    </div>
+                    <div class="impact-item severity-high">
+                        <strong>Radiation Exposure:</strong> Flight crews face increased cosmic radiation at high altitudes
+                    </div>
+                    <div class="impact-item severity-moderate">
+                        <strong>Route Changes:</strong> Polar flights rerouted during severe storms
+                    </div>
+                </div>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">📡</div>
+                <div class="worker-title">Telecom Engineers</div>
+                <div class="impact-list">
+                    <div class="impact-item severity-moderate">
+                        <strong>Satellite Disruption:</strong> Communication satellites experience signal degradation
+                    </div>
+                    <div class="impact-item severity-low">
+                        <strong>Network Outages:</strong> GPS timing signals critical for cellular networks can fail
+                    </div>
+                    <div class="impact-item severity-moderate">
+                        <strong>Equipment Damage:</strong> High-frequency radio equipment vulnerable to induced currents
+                    </div>
+                </div>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">🛢️</div>
+                <div class="worker-title">Oil & Gas Workers</div>
+                <div class="impact-list">
+                    <div class="impact-item severity-moderate">
+                        <strong>Pipeline Corrosion:</strong> GICs accelerate pipeline degradation
+                    </div>
+                    <div class="impact-item severity-low">
+                        <strong>Survey Errors:</strong> Magnetic compass readings become unreliable
+                    </div>
+                    <div class="impact-item severity-moderate">
+                        <strong>Drilling Issues:</strong> Directional drilling guidance systems affected
+                    </div>
+                </div>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">🚂</div>
+                <div class="worker-title">Railway Operators</div>
+                <div class="impact-list">
+                    <div class="impact-item severity-high">
+                        <strong>Signal Failures:</strong> Track signaling systems malfunction
+                    </div>
+                    <div class="impact-item severity-moderate">
+                        <strong>Switch Problems:</strong> Automated track switches may trigger incorrectly
+                    </div>
+                    <div class="impact-item severity-low">
+                        <strong>Communication Loss:</strong> Train-to-control center communications disrupted
+                    </div>
+                </div>
+            </div>
+
+            <div class="worker-card">
+                <div class="worker-icon">🏭</div>
+                <div class="worker-title">Manufacturing Workers</div>
+                <div class="impact-list">
+                    <div class="impact-item severity-moderate">
+                        <strong>Power Interruptions:</strong> Voltage fluctuations disrupt sensitive equipment
+                    </div>
+                    <div class="impact-item severity-low">
+                        <strong>Quality Control:</strong> Precision instruments affected by magnetic interference
+                    </div>
+                    <div class="impact-item severity-moderate">
+                        <strong>Production Delays:</strong> Unexpected shutdowns during severe events
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h2>🌍 Understanding Space Weather</h2>
+        <p>
+            Space weather refers to the environmental conditions in space as influenced by the Sun and its activity. When the Sun releases massive bursts of energy through solar flares or coronal mass ejections (CMEs), it sends charged particles hurtling toward Earth at millions of miles per hour.
+        </p>
+        <p>
+            When these particles interact with Earth's magnetic field, they create geomagnetic storms that can induce electrical currents in long conductors like power lines, pipelines, and railway tracks. This phenomenon, called geomagnetically induced currents (GICs), can cause widespread disruption to industrial operations.
+        </p>
+        <p>
+            Industrial workers across multiple sectors must remain vigilant during periods of high solar activity. Power grid operators monitor space weather forecasts closely, aviation authorities may reroute flights, and communication companies prepare backup systems. The economic impact of a severe space weather event could reach trillions of dollars globally, affecting millions of workers.
+        </p>
+        <p>
+            <strong>Did you know?</strong> The largest recorded geomagnetic storm, the Carrington Event of 1859, caused telegraph systems worldwide to fail and even shocked operators. If a similar event occurred today, it could disable power grids for weeks or months, affecting virtually every industrial worker.
+        </p>
+    </div>
+
+    <script>
+        function setWeatherLevel(level) {
+            const cards = document.querySelectorAll('.weather-card');
+            cards.forEach(card => card.classList.remove('active'));
+            event.target.closest('.weather-card').classList.add('active');
+
+            const workerCards = document.querySelectorAll('.worker-card');
+            workerCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                }, index * 100);
+            });
+        }
+
+        // Add floating animation to hero
+        const hero = document.querySelector('.hero h1');
+        let pos = 0;
+        setInterval(() => {
+            pos += 0.5;
+            hero.style.transform = `translateY(${Math.sin(pos * 0.1) * 5}px)`;
+        }, 50);
+    </script>
+</body>
+</html>

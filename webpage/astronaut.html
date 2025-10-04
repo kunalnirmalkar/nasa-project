@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Beyond Earth: An Astronaut's Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        /* Starfield background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(to bottom, #000000 0%, #0a0a2e 50%, #1a1a3e 100%);
+        }
+
+        .header-content {
+            max-width: 900px;
+            padding: 2rem;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(100, 200, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: #64b5f6;
+            font-style: italic;
+            margin-bottom: 3rem;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #64b5f6;
+        }
+
+        /* Story sections */
+        .story-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 5rem 5%;
+            position: relative;
+        }
+
+        .section-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .section-reverse {
+            direction: rtl;
+        }
+
+        .section-reverse > * {
+            direction: ltr;
+        }
+
+        .text-content {
+            padding: 2rem;
+        }
+
+        .text-content h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1.5rem;
+            color: #64b5f6;
+            font-weight: 300;
+        }
+
+        .text-content p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .visual-content {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Visual elements */
+        .space-station {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .station-body {
+            width: 200px;
+            height: 100px;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            border-radius: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 40px rgba(100, 181, 246, 0.3);
+        }
+
+        .solar-panel {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(45deg, #1e3a5f, #2c5f8d);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .solar-panel.left { left: -130px; }
+        .solar-panel.right { right: -130px; }
+
+        /* Solar flare effect */
+        .solar-flare {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 100, 50, 0.4) 0%, transparent 70%);
+            position: absolute;
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Radiation waves */
+        .radiation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(255, 50, 100, 0.5);
+            border-radius: 50%;
+            animation: expand 4s ease-out infinite;
+        }
+
+        .wave:nth-child(2) { animation-delay: 1.3s; }
+        .wave:nth-child(3) { animation-delay: 2.6s; }
+
+        @keyframes expand {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* Astronaut figure */
+        .astronaut {
+            width: 150px;
+            height: 200px;
+            position: relative;
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        .helmet {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset 0 0 20px rgba(100, 181, 246, 0.3);
+        }
+
+        .visor {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #64b5f6, #2196f3);
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(100, 181, 246, 0.5);
+        }
+
+        .body {
+            width: 100px;
+            height: 120px;
+            background: linear-gradient(135deg, #eceff1, #cfd8dc);
+            border-radius: 20px;
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Alert box */
+        .alert-box {
+            background: rgba(255, 50, 50, 0.1);
+            border: 2px solid rgba(255, 50, 50, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-box h3 {
+            color: #ff6b6b;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: rgba(100, 181, 246, 0.1);
+            border-left: 4px solid #64b5f6;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 5px;
+        }
+
+        .info-box h3 {
+            color: #64b5f6;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Earth view */
+        .earth {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at 30% 30%, #4a90e2, #1e5a8e, #0a2540);
+            border-radius: 50%;
+            position: relative;
+            animation: rotate 30s linear infinite;
+            box-shadow: 0 0 60px rgba(74, 144, 226, 0.5), inset -30px -30px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .section-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-reverse {
+                direction: ltr;
+            }
+
+            .visual-content {
+                height: 300px;
+            }
+        }
+
+        /* Final section */
+        .final-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 5%;
+            background: linear-gradient(to top, #000000 0%, #0a0a2e 100%);
+        }
+
+        .final-content {
+            max-width: 800px;
+        }
+
+        .final-content h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 2rem;
+            color: #64b5f6;
+        }
+
+        .final-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <nav>
+        <div class="nav-title">BEYOND EARTH</div>
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <h1>Life Beyond Earth</h1>
+            <p class="subtitle">An Astronaut's Journey Through Space Weather</p>
+            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto;">
+                Commander Sarah Chen's mission to the International Space Station becomes a battle for survival when an unexpected solar storm threatens everything she holds dear.
+            </p>
+        </div>
+        <div class="scroll-hint">↓ Scroll to begin the journey ↓</div>
+    </header>
+
+    <!-- Chapter 1 -->
+    <section class="story-section" style="background: linear-gradient(to bottom, #1a1a3e, #000);">
+        <div class="section-content">
+            <div class="text-content">
+                <h2>Chapter 1: The Calm Before</h2>
+                <p>
+                    Commander Sarah Chen floated through the Destiny module of the International Space Station, checking the daily schedule on her tablet. It was Day 87 of her six-month mission, and everything was routine. The Earth rotated peacefully below, a blue marble suspended in the void.
+                </p>
+                <p>
+                    "Mission Control, this is ISS. Morning systems check complete. All nominal," she reported, her voice calm and professional. Little did she know, 93 million miles away, the Sun was about to change everything.
+                </p>
+                <div class="info-box">
+                    <h3>Life in Orbit</h3>
+                    <p>Astronauts on the ISS orbit Earth every 90 minutes, experiencing 16 sunrises and sunsets each day. They live in microgravity, where every movement is carefully calculated.</p>
+                </div>
+            </div>
+            <div class="visual-content">
+                <div class="space-station">
+                    <div class="station-body"></div>
+                    <div class="solar-panel left"></div>
+                    <div class="solar-panel right"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Chapter 2 -->
+    <section class="story-section" style="background: #000;">
+        <div class="section-content section-reverse">
+            <div class="text-content">
+                <h2>Chapter 2: The Warning</h2>
+                <p>
+                    The alert came suddenly. "ISS, this is Houston. We're tracking a significant solar flare from Active Region 3614. X-class. You'll need to prepare for elevated radiation levels."
+                </p>
+                <p>
+                    Sarah's heart rate quickened. An X-class flare—the most powerful category. She'd trained for this, but training and reality were different worlds. The Sun had unleashed a massive burst of electromagnetic radiation, and it was heading their way at the speed of light.
+                </p>
+                <div class="alert-box">
+                    <h3>⚠ SOLAR FLARE ALERT</h3>
+                    <p>Solar flares release enormous amounts of energy—equivalent to millions of nuclear bombs. They can disrupt communications, damage electronics, and pose serious radiation risks to astronauts.</p>
+                </div>
+            </div>
+            <div class="visual-content">
+                <div class="solar-flare"></div>
+                <div class="radiation">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 3 -->
+    <section class="story-section" style="background: linear-gradient(to bottom, #000, #1a0a0a);">
+        <div class="section-content">
+            <div class="text-content">
+                <h2>Chapter 3: Taking Shelter</h2>
+                <p>
+                    "All crew, shelter protocol. Move to the sleep quarters now!" Sarah commanded. The sleep quarters, located in the center of the station, offered the most protection from radiation—surrounded by equipment, water supplies, and the station's thickest walls.
+                </p>
+                <p>
+                    As she secured herself in her sleeping bag, she could hear the Geiger counters clicking more rapidly. The invisible threat was all around them. Space weather doesn't knock—it penetrates, bombarding them with high-energy particles that can damage DNA and increase cancer risk.
+                </p>
+                <div class="info-box">
+                    <h3>Radiation in Space</h3>
+                    <p>Without Earth's protective atmosphere and magnetic field, astronauts face constant radiation exposure. During solar storms, radiation levels can spike 100 times higher than normal, making even short missions dangerous.</p>
+                </div>
+            </div>
+            <div class="visual-content">
+                <div class="astronaut">
+                    <div class="helmet">
+                        <div class="visor"></div>
+                    </div>
+                    <div class="body"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 4 -->
+    <section class="story-section" style="background: #1a0a0a;">
+        <div class="section-content section-reverse">
+            <div class="text-content">
+                <h2>Chapter 4: Communication Blackout</h2>
+                <p>
+                    Hours passed in eerie silence. The radio crackled with static—the solar storm was wreaking havoc on Earth's ionosphere, blocking communication signals. Sarah stared at the dead screen, feeling more alone than she ever had, even in the vastness of space.
+                </p>
+                <p>
+                    Her mind wandered to her daughter back on Earth. Was she safe? Solar storms could disrupt power grids, damage satellites, and interfere with GPS systems. Cities could go dark. Planes might lose navigation. The same star that gives life can also threaten it.
+                </p>
+                <div class="alert-box">
+                    <h3>⚠ COMMUNICATION DISRUPTED</h3>
+                    <p>Solar storms interfere with radio waves by ionizing the atmosphere. During major events, astronauts can be cut off from Mission Control for hours or even days, left to rely on their training and each other.</p>
+                </div>
+            </div>
+            <div class="visual-content">
+                <div class="earth"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 5 -->
+    <section class="story-section" style="background: linear-gradient(to bottom, #1a0a0a, #0a0a2e);">
+        <div class="section-content">
+            <div class="text-content">
+                <h2>Chapter 5: The Long Wait</h2>
+                <p>
+                    Eighteen hours. That's how long they stayed in shelter. Eighteen hours of uncertainty, of waiting, of hoping the station's shielding would be enough. Sarah monitored her crew's vital signs, watching for any symptoms of acute radiation sickness—nausea, fatigue, disorientation.
+                </p>
+                <p>
+                    She thought about all the spacewalks they'd completed, exposed to the void with only their suits for protection. During this storm, even those suits would have been inadequate. Space weather had grounded them, turning their home into a shelter, their mission into survival.
+                </p>
+                <div class="info-box">
+                    <h3>Long-term Effects</h3>
+                    <p>Prolonged space missions expose astronauts to cumulative radiation damage. Many astronauts develop cataracts, and their risk of cancer increases significantly. Future missions to Mars will face even greater challenges.</p>
+                </div>
+            </div>
+            <div class="visual-content">
+                <div class="space-station">
+                    <div class="station-body"></div>
+                    <div class="solar-panel left"></div>
+                    <div class="solar-panel right"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Section -->
+    <section class="final-section">
+        <div class="final-content">
+            <h2>Epilogue: Resilience</h2>
+            <p>
+                When the all-clear finally came, Sarah emerged from shelter with a renewed perspective. The storm had passed, and they had survived. But the experience had changed her. She understood now, more deeply than ever, that humans weren't meant for this environment. Every moment in space was a victory against hostile forces.
+            </p>
+            <p>
+                Space weather—solar flares, cosmic rays, radiation storms—these weren't abstract concepts from a training manual. They were real threats that could end a mission, or a life, in an instant. Yet astronauts continue to venture into the void, driven by curiosity, exploration, and the indomitable human spirit.
+            </p>
+            <p style="margin-top: 3rem; font-style: italic; color: #64b5f6;">
+                "We don't go to space despite the dangers. We go because understanding those dangers is the only way we'll ever truly call space our home."
+                <br>- Commander Sarah Chen
+            </p>
+            <div style="margin-top: 4rem; color: rgba(255,255,255,0.4); font-size: 0.9rem;">
+                <p>This story is fictional but based on real space weather events and the genuine challenges astronauts face. Solar storms remain one of the greatest threats to human space exploration, especially for future missions to the Moon and Mars.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.opacity = Math.random() * 0.7 + 0.3;
+            starsContainer.appendChild(star);
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'all 1s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

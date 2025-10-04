@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Invisible Storm: How Space Weather Touches Our Daily Lives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #2d3748;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 0 80px rgba(0,0,0,0.4);
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(102,126,234,0.95) 0%, rgba(118,75,162,0.95) 100%),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><radialGradient id="sun"><stop offset="0%" stop-color="%23ffd700"/><stop offset="100%" stop-color="%23ff6347"/></radialGradient></defs><rect fill="%231a1a3e" width="1200" height="600"/><circle fill="url(%23sun)" cx="900" cy="150" r="120" opacity="0.8"/><circle fill="%23ffffff" cx="100" cy="100" r="2"/><circle fill="%23ffffff" cx="200" cy="150" r="3"/><circle fill="%23ffffff" cx="300" cy="80" r="2"/><circle fill="%23ffffff" cx="500" cy="200" r="2"/><circle fill="%23ffffff" cx="700" cy="120" r="3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-pulse {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.3), transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 3s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 1;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            position: relative;
+            z-index: 1;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .intro-section {
+            padding: 70px 50px;
+            background: linear-gradient(to bottom, #f7fafc, #edf2f7);
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 30px;
+        }
+
+        .intro-text {
+            font-size: 1.3em;
+            color: #4a5568;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.9;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .person-story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .person-story:nth-child(even) {
+            direction: rtl;
+        }
+
+        .person-story:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .story-image {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-image:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3));
+            transition: opacity 0.4s ease;
+        }
+
+        .person-story:hover .story-image:before {
+            opacity: 0.5;
+        }
+
+        .story-content {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: white;
+            position: relative;
+        }
+
+        .person-story:nth-child(even) .story-content {
+            background: #f7fafc;
+        }
+
+        .person-emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .person-name {
+            font-size: 2em;
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .person-role {
+            font-size: 1.1em;
+            color: #718096;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .story-text {
+            font-size: 1.15em;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .impact-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+
+        .stats-section {
+            padding: 80px 50px;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .stats-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 50px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffd700, #ff6347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .timeline-section {
+            padding: 70px 50px;
+            background: #f7fafc;
+        }
+
+        .timeline-section h2 {
+            font-size: 2.5em;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 30px rgba(102,126,234,0.2);
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 35px;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px #667eea;
+        }
+
+        .timeline-date {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 1.5em;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .everyday-impacts {
+            padding: 70px 50px;
+            background: white;
+        }
+
+        .everyday-impacts h2 {
+            font-size: 2.5em;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .impact-card {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 35px;
+            border-radius: 20px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.2);
+        }
+
+        .impact-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .impact-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .impact-card p {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .call-to-action {
+            padding: 80px 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .call-to-action h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .call-to-action p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .awareness-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tip-card {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .tip-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        footer {
+            background: #1a202c;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        @media (max-width: 968px) {
+            .person-story {
+                grid-template-columns: 1fr;
+            }
+
+            .person-story:nth-child(even) {
+                direction: ltr;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .story-content {
+                padding: 40px 30px;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-pulse"></div>
+            <h1>The Invisible Storm</h1>
+            <p class="subtitle">How Space Weather Touches Our Daily Lives</p>
+        </header>
+
+        <section class="intro-section">
+            <h2>You've Been Affected—You Just Didn't Know It</h2>
+            <p class="intro-text">
+                Every day, invisible storms rage 93 million miles away on the sun's surface. These solar tempests hurl billions of tons of charged particles toward Earth at millions of miles per hour. When they arrive, they don't just create beautiful auroras—they disrupt the technology we depend on, from GPS navigation to power grids to airline flights. Here are the real stories of everyday people whose lives were touched by space weather.
+            </p>
+        </section>
+
+        <div class="story-grid">
+            <div class="person-story">
+                <div class="story-content">
+                    <div class="person-emoji">🚗</div>
+                    <div class="person-name">Marcus Thompson</div>
+                    <div class="person-role">Delivery Driver, Chicago</div>
+                    <p class="story-text">
+                        "I was making my usual route when my GPS just... stopped working. Not frozen—it was telling me I was in the middle of Lake Michigan when I was clearly on the highway. I missed three deliveries that day and almost lost my job. Later, I found out it was some solar storm that messed up the satellites."
+                    </p>
+                    <p class="story-text">
+                        Marcus's experience during the May 2024 solar storms wasn't unique. Thousands of drivers, pilots, and hikers found their GPS devices giving impossible readings as solar radiation disrupted satellite signals.
+                    </p>
+                    <div>
+                        <span class="impact-tag">GPS Disruption</span>
+                        <span class="impact-tag">Navigation Errors</span>
+                        <span class="impact-tag">Work Impact</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="person-story">
+                <div class="story-content">
+                    <div class="person-emoji">✈️</div>
+                    <div class="person-name">Jessica Park</div>
+                    <div class="person-role">Flight Attendant, New York</div>
+                    <p class="story-text">
+                        "We were supposed to fly from New York to London—a route I've done hundreds of times. Two hours before departure, the captain announced we were grounded due to 'solar radiation concerns.' I didn't even know that was a thing! 200 passengers had to be rebooked."
+                    </p>
+                    <p class="story-text">
+                        Airlines must divert or cancel polar route flights during severe space weather events because solar radiation at high altitudes can exceed safe exposure limits for crew and passengers, especially pregnant women.
+                    </p>
+                    <div>
+                        <span class="impact-tag">Flight Delays</span>
+                        <span class="impact-tag">Radiation Risk</span>
+                        <span class="impact-tag">Route Changes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="person-story">
+                <div class="story-content">
+                    <div class="person-emoji">🏥</div>
+                    <div class="person-name">Dr. Aisha Rahman</div>
+                    <div class="person-role">Emergency Room Doctor, Seattle</div>
+                    <p class="story-text">
+                        "During a geomagnetic storm, our hospital's electronic records system went haywire. Patient charts were loading incredibly slowly, and our MRI machine kept throwing errors. For three hours, we had to go back to paper records while treating a multi-car accident."
+                    </p>
+                    <p class="story-text">
+                        Medical facilities report increased equipment malfunctions during space weather events. Power fluctuations and electromagnetic interference can affect everything from heart monitors to imaging equipment.
+                    </p>
+                    <div>
+                        <span class="impact-tag">Medical Equipment</span>
+                        <span class="impact-tag">System Errors</span>
+                        <span class="impact-tag">Patient Safety</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="person-story">
+                <div class="story-content">
+                    <div class="person-emoji">🏠</div>
+                    <div class="person-name">Robert Chen</div>
+                    <div class="person-role">Homeowner, Minnesota</div>
+                    <p class="story-text">
+                        "The power went out at 2 AM. It was -15°F outside. With two small kids in the house, I was panicking. The utility company said a 'geomagnetic storm' caused a transformer to blow. I'd never heard of such a thing. We were without heat for 6 hours."
+                    </p>
+                    <p class="story-text">
+                        Space weather induces electrical currents in power grids, potentially overloading transformers. While rare, severe events can cause widespread blackouts affecting millions of homes.
+                    </p>
+                    <div>
+                        <span class="impact-tag">Power Outages</span>
+                        <span class="impact-tag">Home Safety</span>
+                        <span class="impact-tag">Infrastructure</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="person-story">
+                <div class="story-content">
+                    <div class="person-emoji">🎣</div>
+                    <div class="person-name">Tom Mitchell</div>
+                    <div class="person-role">Fisherman, Alaska</div>
+                    <p class="story-text">
+                        "I rely on radio communication to call in my position and check weather. During a big aurora event—which was beautiful, I'll admit—all our radios went to static. We were essentially cut off from the coast guard and other boats for over 12 hours. That's dangerous out here."
+                    </p>
+                    <p class="story-text">
+                        High-frequency radio waves bounce off Earth's ionosphere. During space weather events, the ionosphere becomes turbulent, causing radio blackouts that can last hours or even days.
+                    </p>
+                    <div>
+                        <span class="impact-tag">Radio Blackouts</span>
+                        <span class="impact-tag">Communication Loss</span>
+                        <span class="impact-tag">Safety Hazard</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="person-story">
+                <div class="story-content">
+                    <div class="person-emoji">📱</div>
+                    <div class="person-name">Priya Sharma</div>
+                    <div class="person-role">College Student, Texas</div>
+                    <p class="story-text">
+                        "I was taking an online exam when suddenly my internet just died. Not slow—completely gone. I called my ISP and they said satellite internet was 'affected by solar activity.' I had to get an incomplete and retake the exam. It was so frustrating."
+                    </p>
+                    <p class="story-text">
+                        Satellite internet services are particularly vulnerable to space weather. Solar storms can degrade signals, increase latency, or cause complete service outages for users in rural areas who depend on satellite connectivity.
+                    </p>
+                    <div>
+                        <span class="impact-tag">Internet Outages</span>
+                        <span class="impact-tag">Education Impact</span>
+                        <span class="impact-tag">Connectivity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="stats-section">
+            <h2>Space Weather by the Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number">3.6B</span>
+                    <span class="stat-label">People rely on GPS daily</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">$2T</span>
+                    <span class="stat-label">Annual economic vulnerability</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">Major space weather events yearly</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">40K</span>
+                    <span class="stat-label">Flights affected annually</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-section">
+            <h2>Recent Events That Changed Lives</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">May 10-12, 2024</div>
+                    <div class="timeline-title">The Mother's Day Storm</div>
+                    <p class="story-text">
+                        The most powerful solar storm in over 20 years disrupted GPS systems worldwide. Farmers couldn't plant crops with precision equipment. Delivery drivers got lost. Emergency services struggled with navigation. Power grids in several U.S. states experienced voltage fluctuations.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">February 2022</div>
+                    <div class="timeline-title">The Satellite Internet Crisis</div>
+                    <p class="story-text">
+                        A geomagnetic storm knocked out satellite internet for millions of rural users across North America. Students couldn't attend online classes. Remote workers missed deadlines. Telemedicine appointments were cancelled. Some areas were without connectivity for over 48 hours.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">September 2017</div>
+                    <div class="timeline-title">Hurricane Season Blackout</div>
+                    <p class="story-text">
+                        During an already devastating hurricane season, a solar storm disrupted emergency communication systems in the Caribbean. Radio blackouts prevented coordination of rescue efforts. GPS errors complicated evacuation routes. The compound disaster showed our vulnerability.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">March 1989</div>
+                    <div class="timeline-title">The Quebec Blackout</div>
+                    <p class="story-text">
+                        Six million people lost power for 9 hours in Quebec when a geomagnetic storm overwhelmed the power grid. Hospitals switched to backup generators. Subway trains stopped mid-route. People were trapped in elevators. The event cost an estimated $2 billion and remains a warning of what could happen again.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="everyday-impacts">
+            <h2>How Space Weather Affects You</h2>
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <span class="impact-icon">📍</span>
+                    <h3>Your Navigation</h3>
+                    <p>GPS in your car, phone, or smartwatch can show errors of several meters to kilometers during solar storms. Ride-share apps may struggle to find you.</p>
+                </div>
+
+                <div class="impact-card">
+                    <span class="impact-icon">💳</span>
+                    <h3>Your Money</h3>
+                    <p>Banking systems, ATMs, and credit card processing depend on satellite timing signals. Disruptions can delay transactions or cause temporary outages.</p>
+                </div>
+
+                <div class="impact-card">
+                    <span class="impact-icon">📺</span>
+                    <h3>Your Entertainment</h3>
+                    <p>Satellite TV and radio services can experience signal degradation or complete loss during severe space weather events.</p>
+                </div>
+
+                <div class="impact-card">
+                    <span class="impact-icon">🚆</span>
+                    <h3>Your Commute</h3>
+                    <p>Train systems using GPS for scheduling can experience delays. Traffic management systems may malfunction, causing longer commute times.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
