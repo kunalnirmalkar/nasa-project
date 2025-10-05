@@ -18,13 +18,11 @@
             overflow-x: hidden;
         }
 
-        /* Remove underline from all links globally */
         a {
             text-decoration: none !important;
             color: inherit !important;
         }
 
-        /* Animated gradient background */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -43,7 +41,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Floating orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -86,7 +83,6 @@
             66% { transform: translate(-100px, 100px) scale(0.9); }
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -130,7 +126,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Remove underline pseudo-element completely */
         .nav-links a::after {
             content: none;
         }
@@ -138,7 +133,6 @@
             width: 0;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -222,7 +216,6 @@
             transform: translateY(-3px);
         }
 
-        /* Features Section */
         .features {
             padding: 8rem 5%;
             position: relative;
@@ -285,7 +278,6 @@
             line-height: 1.6;
         }
 
-        /* Scroll indicator */
         .scroll-indicator {
             position: absolute;
             bottom: 2rem;
@@ -413,7 +405,6 @@
     </section>
 
     <script>
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -424,7 +415,6 @@
             });
         });
 
-        // Scroll reveal animation for feature cards
         const observerOptions = { threshold: 0.2, rootMargin: '0px 0px -100px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -439,7 +429,6 @@
             observer.observe(card);
         });
 
-        // Interactive button ripple effect
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const ripple = document.createElement('span');
